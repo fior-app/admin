@@ -11,7 +11,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 
 import { useAuth } from '../context/Auth'
-import { Link, Switch, Route } from 'react-router-dom';
+import { Switch, Route, NavLink } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { Skill } from './pages/Skill';
 import { getMe } from '../api/Fior';
@@ -41,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+  },
+  isActive: {
+    backgroundColor: '#00000016',
   },
 }));
 
@@ -87,12 +90,12 @@ export function Dashboard() {
         <div className={classes.drawerContainer}>
           <List>
             {['Home', 'Skills'].map((text, index) => (
-              <Link to={`/${text.toLowerCase()}`} key={text} style={{ textDecoration: 'none', color: 'unset' }}>
-                <ListItem button>
-                  <ListItemIcon>{index === 0 ? <HomeIcon /> : <LocalLibraryIcon />}</ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItem>
-              </Link>
+              // <NavLink to={`/${text.toLowerCase()}`} key={text} style={{ textDecoration: 'none', color: 'unset' }}>
+              <ListItem button component={NavLink} to={`/${text.toLowerCase()}`} activeClassName={classes.isActive}>
+                <ListItemIcon>{index === 0 ? <HomeIcon /> : <LocalLibraryIcon />}</ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+              // </NavLink>
             ))}
           </List>
         </div>

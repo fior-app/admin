@@ -1,30 +1,59 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 import { useAuth } from '../../context/Auth'
-import { Typography } from '@material-ui/core'
-import { getSkills } from '../../api/Fior'
+import MaterialTable from 'material-table';
+import { getSkills, createSkill, deleteSkill } from '../../api/Fior'
+import { tableIcons } from '../../util/TableIcons';
+import { Container } from '@material-ui/core';
 
 export function Skill() {
+
   const [auth] = useAuth()
 
-  const [skills, setSkills] = useState([])
+  const [state, setState] = React.useState({
+    columns: [
+      { title: 'ID', field: 'id', editable: 'never' },
+      { title: 'Name', field: 'name' },
+    ],
+    data: [],
+  });
 
   useEffect(() => {
     if (auth.token) {
       getSkills(auth.token).then((res) => {
-        setSkills(res.data)
+        setState((state) => ({ ...state, data: res.data }))
       })
     }
   }, [auth])
 
   return (
-    <div>
-      <Typography variant="h5">
-        Skills
-      </Typography>
-      {skills.map((skill, index) => (
-        <div key={skill.id}>{skill.name}</div>
-      ))}
-    </div>
+    <Container>
+      <MaterialTable
+        title="Skills"
+        icons={tableIcons}
+        columns={state.columns}
+        data={state.data}
+        editable={{
+          onRowAdd: (newData) => createSkill(auth.token, newData.name).then((createRes) => {
+            if (createRes.status === 200) {
+              getSkills(auth.token).then((getRes) => {
+                setState((prevState) => {
+                  return { ...prevState, data: getRes.data };
+                });
+              })
+            }
+          }),
+          onRowDelete: (oldData) => deleteSkill(auth.token, oldData.id).then((deleteRes) => {
+            if (deleteRes.status === 200) {
+              getSkills(auth.token).then((getRes) => {
+                setState((prevState) => {
+                  return { ...prevState, data: getRes.data };
+                });
+              })
+            }
+          }),
+        }}
+      />
+    </Container>
   );
 }
