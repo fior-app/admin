@@ -15,6 +15,7 @@ import { Switch, Route, NavLink } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { Skill } from './pages/Skill';
 import { getMe } from '../api/Fior';
+import { SkillDetail } from './pages/SkillDetail';
 
 const drawerWidth = 240;
 
@@ -90,12 +91,10 @@ export function Dashboard() {
         <div className={classes.drawerContainer}>
           <List>
             {['Home', 'Skills'].map((text, index) => (
-              // <NavLink to={`/${text.toLowerCase()}`} key={text} style={{ textDecoration: 'none', color: 'unset' }}>
-              <ListItem button component={NavLink} to={`/${text.toLowerCase()}`} activeClassName={classes.isActive}>
+              <ListItem button component={NavLink} to={`/${text.toLowerCase()}`} activeClassName={classes.isActive} key={text} >
                 <ListItemIcon>{index === 0 ? <HomeIcon /> : <LocalLibraryIcon />}</ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>
-              // </NavLink>
             ))}
           </List>
         </div>
@@ -104,7 +103,8 @@ export function Dashboard() {
         <Toolbar />
         <Switch>
           <Route path="/home" exact component={Home} />
-          <Route path="/skills" component={Skill} />
+          <Route path="/skills" exact component={Skill} />
+          <Route path="/skills/:skillId" component={SkillDetail} />
         </Switch>
       </main>
     </div>

@@ -13,8 +13,13 @@ export function getMe(token) {
   return Axios.get(`${BASE_URL}/users/me`, authHeader(token))
 }
 
+// Skills
 export function getSkills(token) {
   return Axios.get(`${BASE_URL}/skills`, authHeader(token))
+}
+
+export function getSkill(token, skillId) {
+  return Axios.get(`${BASE_URL}/skills/${skillId}`, authHeader(token))
 }
 
 export function createSkill(token, name) {
@@ -23,6 +28,22 @@ export function createSkill(token, name) {
 
 export function deleteSkill(token, skillId) {
   return Axios.delete(`${BASE_URL}/skills/${skillId}`, authHeader(token))
+}
+
+export function getSkillQuestions(token, skillId) {
+  return Axios.get(`${BASE_URL}/skills/${skillId}/fullQuestions`, authHeader(token))
+}
+
+export function createSkillQuestion(token, skillId, data) {
+  return Axios.post(`${BASE_URL}/skills/${skillId}/questions`, data, authHeader(token))
+}
+
+export function updateSkillQuestion(token, skillId, questionId, data) {
+  return Axios.patch(`${BASE_URL}/skills/${skillId}/questions/${questionId}`, data, authHeader(token))
+}
+
+export function deleteSkillQuestion(token, skillId, questionId) {
+  return Axios.delete(`${BASE_URL}/skills/${skillId}/questions/${questionId}`, authHeader(token))
 }
 
 // Utility

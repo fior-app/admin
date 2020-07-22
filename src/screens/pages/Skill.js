@@ -5,8 +5,10 @@ import MaterialTable from 'material-table';
 import { getSkills, createSkill, deleteSkill } from '../../api/Fior'
 import { tableIcons } from '../../util/TableIcons';
 import { Container } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 
 export function Skill() {
+  const routerHistory = useHistory()
 
   const [auth] = useAuth()
 
@@ -53,6 +55,7 @@ export function Skill() {
             }
           }),
         }}
+        onRowClick={(_, rowData) => { routerHistory.push(`/skills/${rowData.id}`) }}
       />
     </Container>
   );
