@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from "react-hook-form";
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -28,6 +28,9 @@ const useStyles = makeStyles({
   title: {
     fontSize: 14,
   },
+  error: {
+    color: 'red',
+  },
   pos: {
     marginBottom: 12,
   },
@@ -38,14 +41,26 @@ export function Login() {
 
   const [auth, setAuth] = useAuth()
 
+  const [state, setState] = useState({ isSigningIn: false, error: null })
+
   const { register, handleSubmit } = useForm()
 
   const onSubmit = data => {
+    setState((state) => ({ ...state, isSigningIn: true }))
     signInWithEmail(data.email, data.password).then((res) => {
-      if (res.status === 200 && res.data.token) {
+      setState((state) => ({ ...state, isSigningIn: false }))
+      if (res.data.token) {
         localStorage.setItem("token", res.data.token)
         setAuth((state) => ({ ...state, token: res.data.token }))
       }
+    }).catch((err) => {
+      let error;
+      if (err && err.response && err.response.data && err.response.data.message) {
+        error = err.response.data.message
+      } else {
+        error = "Unknown error"
+      }
+      setState((state) => ({ ...state, isSigningIn: false, error }))
     })
   }
 
@@ -61,7 +76,8 @@ export function Login() {
           <form onSubmit={handleSubmit(onSubmit)}>
             <input type="email" name="email" ref={register({ require: true })} />
             <input type="password" name="password" ref={register({ required: true })} />
-            <Button variant="contained" color="primary" type="submit">
+            {state.error && <div className={classes.error}>{state.error}</div>}
+            <Button variant="contained" color="primary" type="submit" disabled={state.isSigningIn}>
               Login
             </Button>
           </form>

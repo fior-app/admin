@@ -6,6 +6,7 @@ export function signInWithEmail(email, password) {
   return Axios.post(`${BASE_URL}/auth/signin/email`, {
     email: email,
     password: password,
+    scope: 'ADMIN'
   })
 }
 
