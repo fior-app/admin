@@ -11,7 +11,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 
 import { useAuth } from '../context/Auth'
-import { Switch, Route, NavLink } from 'react-router-dom';
+import { Switch, Route, NavLink, Redirect } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { Skill } from './pages/Skill';
 import { getMe } from '../api/Fior';
@@ -105,6 +105,7 @@ export function Dashboard() {
           <Route path="/home" exact component={Home} />
           <Route path="/skills" exact component={Skill} />
           <Route path="/skills/:skillId" component={SkillDetail} />
+          <Redirect path="/" exact to="/home" />
         </Switch>
       </main>
     </div>

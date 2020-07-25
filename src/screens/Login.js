@@ -65,7 +65,7 @@ export function Login() {
   }
 
   if (!auth.loading && auth.token) {
-    return <Redirect to="/home" />;
+    return <Redirect to="/" />;
   }
 
   return (
