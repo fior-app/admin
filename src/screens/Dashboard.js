@@ -9,6 +9,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
+import PersonIcon from '@material-ui/icons/Person';
 
 import { useAuth } from '../context/Auth'
 import { Switch, Route, NavLink, Redirect } from 'react-router-dom';
@@ -16,6 +17,7 @@ import { Home } from './pages/Home';
 import { Skill } from './pages/Skill';
 import { getMe } from '../api/Fior';
 import { SkillDetail } from './pages/SkillDetail';
+import { Admin } from './pages/Admin';
 
 const drawerWidth = 240;
 
@@ -90,9 +92,9 @@ export function Dashboard() {
         <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-            {['Home', 'Skills'].map((text, index) => (
+            {['Home', 'Skills', 'Admins'].map((text, index) => (
               <ListItem button component={NavLink} to={`/${text.toLowerCase()}`} activeClassName={classes.isActive} key={text} >
-                <ListItemIcon>{index === 0 ? <HomeIcon /> : <LocalLibraryIcon />}</ListItemIcon>
+                <ListItemIcon>{index === 0 ? <HomeIcon /> : index === 1 ? <LocalLibraryIcon /> : <PersonIcon />}</ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>
             ))}
@@ -103,6 +105,7 @@ export function Dashboard() {
         <Toolbar />
         <Switch>
           <Route path="/home" exact component={Home} />
+          <Route path="/admins" exact component={Admin} />
           <Route path="/skills" exact component={Skill} />
           <Route path="/skills/:skillId" component={SkillDetail} />
           <Redirect path="/" exact to="/home" />

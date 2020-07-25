@@ -22,27 +22,32 @@ const useStyles = makeStyles({
 export function Home() {
   const classes = useStyles()
 
+  const cards = [
+    { title: "Skills", type: "Resource", des: "Used to categorize users, questions and posts", route: "/skills" },
+    { title: "Admins", type: "User", des: "Manage system privilages of users", route: "/admins" }
+  ]
+
   return (
     <Container>
       <Typography variant="h4">Welcome to the Dashboard</Typography>
       <Typography variant="subtitle1">Manage content of Fior platform</Typography>
       <Grid container spacing={3} className={classes.gridContainer}>
-        <Grid item xs={4}>
-          <Card variant="outlined">
-            <CardContent>
-              <Typography variant="h5" component="h2">Skills</Typography>
-              <Typography className={classes.pos} color="textSecondary">Resource</Typography>
-              <Typography variant="body2" component="p">
-                Used to categorize users, questions and posts
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Link to="/skills" style={{ textDecoration: 'None', color: 'inherit' }}>
-                <Button size="small" color="primary">Manage</Button>
-              </Link>
-            </CardActions>
-          </Card>
-        </Grid>
+        {cards.map((cardData, index) => (
+          <Grid item xs={4} key={index}>
+            <Card variant="outlined">
+              <CardContent>
+                <Typography variant="h5" component="h2">{cardData.title}</Typography>
+                <Typography className={classes.pos} color="textSecondary">{cardData.type}</Typography>
+                <Typography variant="body2" component="p">{cardData.des}</Typography>
+              </CardContent>
+              <CardActions>
+                <Link to={cardData.route} style={{ textDecoration: 'None', color: 'inherit' }}>
+                  <Button size="small" color="primary">Manage</Button>
+                </Link>
+              </CardActions>
+            </Card>
+          </Grid>
+        ))}
       </Grid>
     </Container>
   );

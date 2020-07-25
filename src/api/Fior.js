@@ -47,6 +47,20 @@ export function deleteSkillQuestion(token, skillId, questionId) {
   return Axios.delete(`${BASE_URL}/skills/${skillId}/questions/${questionId}`, authHeader(token))
 }
 
+// Admins
+export function getAdmins(token) {
+  return Axios.get(`${BASE_URL}/admins`, authHeader(token))
+}
+
+export function createAdmin(token, email) {
+  return Axios.post(`${BASE_URL}/admins`, { email }, authHeader(token))
+}
+
+export function deleteAdmin(token, userId) {
+  return Axios.delete(`${BASE_URL}/admins/${userId}`, authHeader(token))
+}
+
+
 // Utility
 function authHeader(token) {
   return { headers: { Authorization: `Bearer ${token}` } }
