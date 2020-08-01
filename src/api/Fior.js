@@ -1,8 +1,11 @@
 import Axios from "axios"
+import { REACT_APP_API_BASE_URL }  from "../config"
 
-const BASE_URL = "http://localhost:8080"
+const BASE_URL = REACT_APP_API_BASE_URL
+
 
 export function signInWithEmail(email, password) {
+  console.log(email, password)
   return Axios.post(`${BASE_URL}/auth/signin/email`, {
     email: email,
     password: password,
